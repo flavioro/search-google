@@ -1,71 +1,71 @@
-// const e = require('express');
 const fs = require('fs')
 const  googleIt = require('google-it')
 // const date = require('./date')
 // const saveFile = require('./saveFile')
 
-const searchWords = ['modelo de casa', 'modelo de casas', 'planta de casa', 
-  'plantas de casas',  'projetos de casas', 'casa terreo', 
-  'plantas de sobrado', 'projetos de casas online', 'modelo de projeto', 
-  'planta baixa de casas', 'planta de casa com 3 quartos', 
-  'planta de casa online', 'planta de sobrado', 
-  'projeto de casas com 3 quartos', 'escritorio de arquitetura em Holambra', 
-  'projeto arquitetonico', 'planta pronta', 'plantas para casas', 
-  'plantas casas', 'projeto pronto', 'planta de casa pronta', 
-  'planta de casas com 2 quartos', 'arquiteto em Holambra'
-]
+// const searchWords = ['modelo de casa', 'modelo de casas', 'planta de casa', 
+//   'plantas de casas',  'projetos de casas', 'casa terreo', 
+//   'plantas de sobrado', 'projetos de casas online', 'modelo de projeto', 
+//   'planta baixa de casas', 'planta de casa com 3 quartos', 
+//   'planta de casa online', 'planta de sobrado', 
+//   'projeto de casas com 3 quartos', 'escritorio de arquitetura em Holambra', 
+//   'projeto arquitetonico', 'planta pronta', 'plantas para casas', 
+//   'plantas casas', 'projeto pronto', 'planta de casa pronta', 
+//   'planta de casas com 2 quartos', 'arquiteto em Holambra'
+// ]
+
+const searchWords = ['modelo de casa']
 
 let search =  ''
 
-// for (i = 0; i < searchWords.length; i++) {
-//   console.log(`${i+1} ${searchWords[i]} \r\n`)
-//   search = searchWords[i]
-// }
-
-processArray(searchWords)
+getTodos(searchWords)
 
 // googleIt({'query': 'plantas de casa', 'limit': 15}).then(results => {
-googleIt({'query': search, 'limit': 100})
+
+
+async function delay() {
+  return await new Promise(resolve => setTimeout(resolve, 3000));
+}
+
+async function delayedLog(query) {
+  // notice that we can await a function
+  // that returns a promise
+  await delay();
+  console.log(query);
+
+  const limit = 100
+  const diagnostics = true
+  googleIt({query, limit})
   .then(results => {
-    // console.log(new Date(),' => ', search)
+    console.log(query,' => ', limit)
     let txtFile = ''
+    console.log(results)
     for (i = 0; i < results.length; i++) {
-      // console.log(`${i+1} - ${results[i].link} - ${results[i].title}`)
+      console.log(`${i+1} - ${results[i].link} - ${results[i].title}`)
       txtFile += `${i+1} ${results[i].link} | ${results[i].title} \r\n`
     }
 
     const dateFormatted = dateAndHoursNowFormatted('_')
-    let nameFile = `${search}-${dateFormatted}.txt`
+    let nameFile = `${query}-${dateFormatted}.txt`
     console.log(nameFile)
-
-    console.log(new Date(),' => ', search)
 
     nameFile = nameFile.replace('/', '').replace(':', '')
     fs.writeFileSync('./searchs/'+ nameFile, txtFile);
+    return 'file saved'
+
   }).catch(e => {
     // any possible errors that might have occurred (like no Internet connection)
     console.error('errors: ', e)
 })
-
-function delay() {
-  return new Promise(resolve => setTimeout(resolve, 300));
 }
 
-async function delayedLog(item) {
-  // notice that we can await a function
-  // that returns a promise
-  await delay();
-  console.log(item);
-  googleIt({query:item, limit:100});
-}
+async function getTodos(array) {
+  for (const [idx, query] of array.entries()) {
+    const todo = await delayedLog(query)
+    console.log(`Received Todo ${idx+1}:`, todo);
+  }
 
-async function processArray(array) {
-  // map array to promises
-  const promises = array.map(delayedLog);
-
-  // wait until all promises are resolved
-  await Promise.all(promises);
-  console.log('Done!');
+  console.log('Finished!');
 }
 
 function dateNowFormatted(separator='/') {
@@ -89,4 +89,3 @@ function dateAndHoursNowFormatted(separator=':') {
 
   return `${dateNowFormatted(separator)} ${hour}${separator}${minute}${separator}${second}`;
 }
-
