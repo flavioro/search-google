@@ -1,20 +1,23 @@
+'use strict'
+
 const fs = require('fs')
 const  googleIt = require('google-it')
+// const  googleIt = require('./googleIt_')
 // const date = require('./date')
 // const saveFile = require('./saveFile')
 
-// const searchWords = ['modelo de casa', 'modelo de casas', 'planta de casa', 
-//   'plantas de casas',  'projetos de casas', 'casa terreo', 
-//   'plantas de sobrado', 'projetos de casas online', 'modelo de projeto', 
-//   'planta baixa de casas', 'planta de casa com 3 quartos', 
-//   'planta de casa online', 'planta de sobrado', 
-//   'projeto de casas com 3 quartos', 'escritorio de arquitetura em Holambra', 
-//   'projeto arquitetonico', 'planta pronta', 'plantas para casas', 
-//   'plantas casas', 'projeto pronto', 'planta de casa pronta', 
-//   'planta de casas com 2 quartos', 'arquiteto em Holambra'
-// ]
+const searchWords = ['modelo de casa', 'modelo de casas', 'planta de casa', 
+  'plantas de casas',  'projetos de casas', 'casa terreo', 
+  'plantas de sobrado', 'projetos de casas online', 'modelo de projeto', 
+  'planta baixa de casas', 'planta de casa com 3 quartos', 
+  'planta de casa online', 'planta de sobrado', 
+  'projeto de casas com 3 quartos', 'escritorio de arquitetura em Holambra', 
+  'projeto arquitetonico', 'planta pronta', 'plantas para casas', 
+  'plantas casas', 'projeto pronto', 'planta de casa pronta', 
+  'planta de casas com 2 quartos', 'arquiteto em Holambra'
+]
 
-const searchWords = ['modelo de casa']
+// const searchWords = ['planta de casa']
 
 let search =  ''
 
@@ -39,9 +42,10 @@ async function delayedLog(query) {
   .then(results => {
     console.log(query,' => ', limit)
     let txtFile = ''
-    console.log(results)
+    // console.log(results)
+    let i = 0
     for (i = 0; i < results.length; i++) {
-      console.log(`${i+1} - ${results[i].link} - ${results[i].title}`)
+      // console.log(`${i+1} - ${results[i].link} - ${results[i].title}`)
       txtFile += `${i+1} ${results[i].link} | ${results[i].title} \r\n`
     }
 
