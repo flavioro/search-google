@@ -1,0 +1,21 @@
+{
+  "name": "search-engine-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "go": "nodemon googleIt.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "google": "^2.1.0",
+    "google-it": "^1.5.4",
+    "nodemon": "^2.0.6",
+    "puppeteer": "^5.4.1"
+  }
+}
