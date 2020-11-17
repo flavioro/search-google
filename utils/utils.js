@@ -46,6 +46,13 @@ function stripHTML (text) {
   })
 }
 
+function saveFileAppend(nameFile, textSave) {
+  fs.appendFile(nameFile, textSave, function (err) {
+    if (err) throw err;
+    console.log('Saved!');
+  });
+}
+
 module.exports = {
   isArray,
   assert,
@@ -56,4 +63,5 @@ module.exports = {
   normalizeXMLName,
   indent,
   stripHTML,
+  saveFileAppend,
 }

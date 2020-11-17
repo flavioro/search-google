@@ -2,31 +2,32 @@
 
 const fs = require('fs')
 const  googleIt = require('google-it')
-// const exportFromJSON = require('export-from-json')
 const exportToCsv = require('./utils/converters')
 const utils = require('./utils/utils').saveFileAppend
-// const  googleIt = require('./googleIt_')
-// const date = require('./date')
-// const saveFile = require('./saveFile')
+const log = require('simple-node-logger').createSimpleLogger('archshop.log');
 
-// const searchWords = ['modelo de casa', 'modelo de casas', 'planta de casa', 
-//   'plantas de casas',  'projetos de casas', 'casa terreo', 
-//   'plantas de sobrado', 'projetos de casas online', 'modelo de projeto', 
-//   'planta baixa de casas', 'planta de casa com 3 quartos', 
-//   'planta de casa online', 'planta de sobrado', 
-//   'projeto de casas com 3 quartos', 'escritorio de arquitetura em Holambra', 
-//   'projeto arquitetonico', 'planta pronta', 'plantas para casas', 
-//   'plantas casas', 'projeto pronto', 'planta de casa pronta', 
-//   'planta de casas com 2 quartos', 'arquiteto em Holambra'
-// ]
 
-const searchWords = ['planta de casa']
+const searchWords = ['modelo de casa', 'modelo de casas', 'planta de casa', 
+  'plantas de casas',  'projetos de casas', 'casa terreo', 
+  'plantas de sobrado', 'projetos de casas online', 'modelo de projeto', 
+  'planta baixa de casas', 'planta de casa com 3 quartos', 
+  'planta de casa online', 'planta de sobrado', 
+  'projeto de casas com 3 quartos', 'escritorio de arquitetura em Holambra', 
+  'projeto arquitetonico', 'planta pronta', 'plantas para casas', 
+  'plantas casas', 'projeto pronto', 'planta de casa pronta', 
+  'planta de casas com 2 quartos', 'arquiteto em Holambra'
+]
 
-getTodos(searchWords)
+// const searchWords = ['planta de casa']
 
-async function delay() {
-  return await new Promise(resolve => setTimeout(resolve, 3000));
-}
+const search = [{"title": "ArchShop - Planta pronta e plantas de casas",
+"link": "https://www.archshop.com.br/",
+"snippet": "Plantas de ,casas, para ,projetos, terreos, sobrados, onde nossos engenheiros e arquitetos trazem modelos de ,casas, prontos para construir com videos de ,casas,, ..."}]
+
+log.info('position: 5; ', new Date().toJSON())
+log.info('position: 5; ', search)
+log.info(nameFile(""))
+log.info(nameFile("plantas casas"))
 
 function nameFile(nameFile) {
   const dateFormatted = dateAndHoursNowFormatted('_')
@@ -40,15 +41,9 @@ function nameFile(nameFile) {
 }
 
 async function delayedLog(query) {
-  // notice that we can await a function
-  // that returns a promise
-  await delay();
+
   console.log(query);
 
-  const limit = 100
-  const diagnostics = true
-
-  const output = nameFile(query)
 
   googleIt({query, limit, output})
   .then(results => {
@@ -59,7 +54,7 @@ async function delayedLog(query) {
     let i = 0
     for (i = 0; i < results.length; i++) {
       if (String(results[i].link).includes('archshop.com.br')) {
-
+        
       }
       // console.log(`${i+1} - ${results[i].link} - ${results[i].title}`)
       txtFile += `${i+1} ${results[i].link} | ${results[i].title} \r\n`
