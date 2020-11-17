@@ -2,6 +2,8 @@
 
 const fs = require('fs')
 const  googleIt = require('google-it')
+// const exportFromJSON = require('export-from-json')
+const exportToCsv = require('./utils/converters')
 // const  googleIt = require('./googleIt_')
 // const date = require('./date')
 // const saveFile = require('./saveFile')
@@ -19,15 +21,18 @@ const searchWords = ['modelo de casa', 'modelo de casas', 'planta de casa',
 
 // const searchWords = ['planta de casa']
 
-let search =  ''
-
 getTodos(searchWords)
-
-// googleIt({'query': 'plantas de casa', 'limit': 15}).then(results => {
-
 
 async function delay() {
   return await new Promise(resolve => setTimeout(resolve, 3000));
+}
+
+function nameFile(nameFile) {
+  const dateFormatted = dateAndHoursNowFormatted('_')
+  let nameFileNew = `${nameFile}-${dateFormatted}`
+
+  nameFileNew = nameFileNew.replace('/', '').replace(':', '')
+  return nameFileNew
 }
 
 async function delayedLog(query) {
@@ -38,7 +43,10 @@ async function delayedLog(query) {
 
   const limit = 100
   const diagnostics = true
-  googleIt({query, limit})
+
+  const output = nameFile(query)
+
+  googleIt({query, limit, output})
   .then(results => {
     console.log(query,' => ', limit)
     let txtFile = ''
@@ -49,24 +57,23 @@ async function delayedLog(query) {
       txtFile += `${i+1} ${results[i].link} | ${results[i].title} \r\n`
     }
 
-    const dateFormatted = dateAndHoursNowFormatted('_')
-    let nameFile = `${query}-${dateFormatted}.txt`
-    console.log(nameFile)
+    let fileCsv = exportToCsv.createCSVData(results, '|')
+    // console.log(fileCsv)
 
-    nameFile = nameFile.replace('/', '').replace(':', '')
-    fs.writeFileSync('./searchs/'+ nameFile, txtFile);
-    return 'file saved'
+    fs.writeFileSync('./searchs/'+ output, fileCsv);
 
   }).catch(e => {
     // any possible errors that might have occurred (like no Internet connection)
     console.error('errors: ', e)
 })
+  return 'success'
 }
+
 
 async function getTodos(array) {
   for (const [idx, query] of array.entries()) {
     const todo = await delayedLog(query)
-    console.log(`Received Todo ${idx+1}:`, todo);
+    console.log(`Received search ${idx+1} to ${query}:`, todo);
   }
 
   console.log('Finished!');

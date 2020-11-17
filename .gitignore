@@ -20,6 +20,9 @@ build/Release
 # Dependency directories
 node_modules/
 
+# Word search
+searchs/
+
 
 # TypeScript v1 declaration files
 typings/
