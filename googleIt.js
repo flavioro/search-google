@@ -5,6 +5,7 @@ const  googleIt = require('google-it')
 // const exportFromJSON = require('export-from-json')
 const exportToCsv = require('./utils/converters')
 const utils = require('./utils/utils').saveFileAppend
+const log = require('simple-node-logger').createSimpleLogger('archshop.log');
 // const  googleIt = require('./googleIt_')
 // const date = require('./date')
 // const saveFile = require('./saveFile')
@@ -59,10 +60,17 @@ async function delayedLog(query) {
     let i = 0
     for (i = 0; i < results.length; i++) {
       if (String(results[i].link).includes('archshop.com.br')) {
-
+        const result = `, position:${i+1},${results[i]}`
+        log.info(nameFile(query), {result})
       }
       // console.log(`${i+1} - ${results[i].link} - ${results[i].title}`)
-      txtFile += `${i+1} ${results[i].link} | ${results[i].title} \r\n`
+      // txtFile += `${i+1} ${results[i].link} | ${results[i].title} \r\n`
+    }
+
+    const indexArch = results.findIndex(item => item.link.includes('archshop'));
+    if (indexArch) {
+      const itemArch = {position: indexArch+1, ...results[indexArch] }
+      log.info(nameFile(query), JSON.stringify(itemArch))
     }
 
 
