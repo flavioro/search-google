@@ -97,6 +97,19 @@ async function getTodos(array) {
   // console.log('Finished!');
 }
 
+function readFile(output) {
+  const fileRead = fs.readFile('/doesnt/exist', 'utf8', function (err,data) {
+    if (err) {
+      return console.log(err);
+    }
+    return data;
+  });
+
+  let fileCsv = exportToCsv.createCSVData(fileRead, '|')
+
+  fs.writeFileSync(output+'.csv', fileCsv);
+}
+
 function dateNowFormatted(separator='/') {
   const date = new Date();
   const day = date.getDate().toString().padStart(2, '0');
