@@ -21,7 +21,7 @@ const log = require('simple-node-logger').createSimpleLogger('archshop.log');
 //   'planta de casas com 2 quartos', 'arquiteto em Holambra'
 // ]
 
-const searchWords = ['planta de sobrados']
+const searchWords = ['planta pronta']
 
 getTodos(searchWords)
 
@@ -47,7 +47,7 @@ async function delayedLog(query) {
   console.log(query);
 
   const limit = 100
-  const diagnostics = true
+  // const diagnostics = true
 
   const output = './searchs/'+ nameFile(query)
   const disableConsole  = true
@@ -77,8 +77,8 @@ async function delayedLog(query) {
     }
 
     let fileCsv = exportToCsv.createCSVData(results, '|')
-    console.log(fileCsv)
-    console.log(output)
+    // console.log(fileCsv)
+    // console.log(output)
     fs.writeFileSync(output+'.csv', fileCsv);
 
   }).catch(e => {
@@ -91,10 +91,10 @@ async function delayedLog(query) {
 async function getTodos(array) {
   for (const [idx, query] of array.entries()) {
     const todo = await delayedLog(query)
-    console.log(`Received search ${idx+1} to ${query}:`, todo);
+    // console.log(`Received search ${idx+1} to ${query}:`, todo);
   }
 
-  console.log('Finished!');
+  // console.log('Finished!');
 }
 
 function dateNowFormatted(separator='/') {

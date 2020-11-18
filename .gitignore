@@ -22,7 +22,11 @@ node_modules/
 
 # Word search
 searchs/
-
+./searchs
+./searchs/
+./searchs/*
+./searchs/*.csv
+*.csv
 
 # TypeScript v1 declaration files
 typings/
