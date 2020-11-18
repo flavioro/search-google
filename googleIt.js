@@ -50,11 +50,10 @@ const searchWords = [
   'projeto de casas com 3 quartos',  
   'arquiteto em Holambra', 
   'escritorio de arquitetura em Holambra',
-
 ]
 
 // const searchWords = ['planta pronta']
-
+let contador = 0
 getTodos(searchWords)
 
 async function delay() {
@@ -76,17 +75,18 @@ async function delayedLog(query) {
   // notice that we can await a function
   // that returns a promise
   await delay();
-  console.log(query);
+  // console.log(query);
 
   const limit = 100
   // const diagnostics = true
-
   const output = './searchs/'+ nameFile(query)
   const disableConsole  = true
 
+  contador++
+
   googleIt({query, limit, output, disableConsole})
   .then(results => {
-    console.log(query,' => ', limit)
+    console.log(contador + ' ' + query,' => ', limit)
     // let txtFile = ''
     // // console.log(results)
 
