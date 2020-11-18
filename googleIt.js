@@ -21,12 +21,44 @@ const log = require('simple-node-logger').createSimpleLogger('archshop.log');
 //   'planta de casas com 2 quartos', 'arquiteto em Holambra'
 // ]
 
-const searchWords = ['planta pronta']
+
+
+
+
+
+
+const searchWords = [
+  'casa terreo',
+
+  'modelo de casa', 
+  'modelo de projeto', 
+
+  'plantas para casas', 
+  'planta de casa', 
+  'planta de casa online',
+  'planta de casas com 2 quartos', 
+  'planta de casa com 3 quartos',
+  'planta de casa pronta', 
+  'planta pronta', 
+  'planta baixa de casas',  
+  'planta de sobrado', 
+
+  'projetos de casas',
+  'projetos de casas online', 
+  'projeto pronto',  
+  'projeto arquitetonico',   
+  'projeto de casas com 3 quartos',  
+  'arquiteto em Holambra', 
+  'escritorio de arquitetura em Holambra',
+
+]
+
+// const searchWords = ['planta pronta']
 
 getTodos(searchWords)
 
 async function delay() {
-  return await new Promise(resolve => setTimeout(resolve, 3000));
+  return await new Promise(resolve => setTimeout(resolve, 6000));
 }
 
 function nameFile(nameFile) {
