@@ -48,6 +48,7 @@ const searchWords = [
   'projeto pronto',  
   'projeto arquitetonico',   
   'projeto de casas com 3 quartos',  
+
   'arquiteto em Holambra', 
   'escritorio de arquitetura em Holambra',
 ]
@@ -100,18 +101,21 @@ async function delayedLog(query) {
     //   // txtFile += `${i+1} ${results[i].link} | ${results[i].title} \r\n`
     // }
 
-    const indexArch = results.findIndex(item => item.link.includes('archshop'));
-    if (indexArch && indexArch > 0) {
-      const dateTime = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-      const itemAdd = {word: query, date: dateTime, position: indexArch+1}
-      const itemArch = {...itemAdd, ...results[indexArch] }
-      utils('archshop.json', JSON.stringify(itemArch)+',')
-    }
+    if (typeof results != "undefined" && results != null && results.length != null && results.length > 0) {
+      const indexArch = results.findIndex(item => item.link.includes('archshop'));
+      if (indexArch && indexArch > 0) {
+        const dateTime = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+        const itemAdd = {word: query, date: dateTime, position: indexArch+1}
+        const itemArch = {...itemAdd, ...results[indexArch] }
+        utils('archshop.json', JSON.stringify(itemArch)+',')
+      }
+  
+      let fileCsv = exportToCsv.createCSVData(results, '|')
+      // console.log(fileCsv)
+      // console.log(output)
+      fs.writeFileSync(output+'.csv', fileCsv);
+  }
 
-    let fileCsv = exportToCsv.createCSVData(results, '|')
-    // console.log(fileCsv)
-    // console.log(output)
-    fs.writeFileSync(output+'.csv', fileCsv);
 
   }).catch(e => {
     // any possible errors that might have occurred (like no Internet connection)
