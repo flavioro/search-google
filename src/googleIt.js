@@ -67,7 +67,8 @@ async function delayedLog(query) {
   .then(results => {
     console.log(contador + ' ' + query,' => ', limit)
 
-    if (typeof results != "undefined" && results != null && results.length != null && results.length > 0) {
+    if (Array.isArray(results) && typeof results != "undefined" && results != null 
+      && results.length != null && results.length > 0 ) {
       const indexArch = results.findIndex(item => item.link.includes('archshop'));
       if (indexArch && indexArch > 0) {
         const dateTime = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
