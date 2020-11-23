@@ -5,27 +5,6 @@ const  googleIt = require('google-it')
 // const exportFromJSON = require('export-from-json')
 const exportToCsv = require('./utils/converters')
 const utils = require('./utils/utils').saveFileAppend
-const log = require('simple-node-logger').createSimpleLogger('archshop.log');
-// const  googleIt = require('./googleIt_')
-// const date = require('./date')
-// const saveFile = require('./saveFile')
-
-// const searchWords = ['modelo de casa', 'modelo de casas', 'planta de casa', 
-//   'plantas de casas',  'projetos de casas', 'casa terreo', 
-//   'plantas de sobrado', 'projetos de casas online', 'modelo de projeto', 
-//   'planta baixa de casas', 'planta de casa com 3 quartos', 
-//   'planta de casa online', 'planta de sobrado', 
-//   'projeto de casas com 3 quartos', 'escritorio de arquitetura em Holambra', 
-//   'projeto arquitetonico', 'planta pronta', 'plantas para casas', 
-//   'plantas casas', 'projeto pronto', 'planta de casa pronta', 
-//   'planta de casas com 2 quartos', 'arquiteto em Holambra'
-// ]
-
-
-
-
-
-
 
 const searchWords = [
   'casa terreo',
@@ -52,8 +31,8 @@ const searchWords = [
   'arquiteto em Holambra', 
   'escritorio de arquitetura em Holambra',
 ]
-
 // const searchWords = ['planta pronta']
+
 let contador = 0
 getTodos(searchWords)
 
@@ -76,7 +55,6 @@ async function delayedLog(query) {
   // notice that we can await a function
   // that returns a promise
   await delay();
-  // console.log(query);
 
   const limit = 100
   // const diagnostics = true
@@ -88,18 +66,6 @@ async function delayedLog(query) {
   googleIt({query, limit, output, disableConsole})
   .then(results => {
     console.log(contador + ' ' + query,' => ', limit)
-    // let txtFile = ''
-    // // console.log(results)
-
-    // let i = 0
-    // for (i = 0; i < results.length; i++) {
-    //   if (String(results[i].link).includes('archshop.com.br')) {
-    //     const result = `, position:${i+1},${results[i]}`
-    //     log.info(nameFile(query), {result})
-    //   }
-    //   // console.log(`${i+1} - ${results[i].link} - ${results[i].title}`)
-    //   // txtFile += `${i+1} ${results[i].link} | ${results[i].title} \r\n`
-    // }
 
     if (typeof results != "undefined" && results != null && results.length != null && results.length > 0) {
       const indexArch = results.findIndex(item => item.link.includes('archshop'));
@@ -107,12 +73,10 @@ async function delayedLog(query) {
         const dateTime = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
         const itemAdd = {word: query, date: dateTime, position: indexArch+1}
         const itemArch = {...itemAdd, ...results[indexArch] }
-        utils('archshop.json', JSON.stringify(itemArch)+',')
+        utils('./src/archshop.json', JSON.stringify(itemArch)+',')
       }
   
       let fileCsv = exportToCsv.createCSVData(results, '|')
-      // console.log(fileCsv)
-      // console.log(output)
       fs.writeFileSync(output+'.csv', fileCsv);
   }
 
@@ -127,10 +91,7 @@ async function delayedLog(query) {
 async function getTodos(array) {
   for (const [idx, query] of array.entries()) {
     const todo = await delayedLog(query)
-    // console.log(`Received search ${idx+1} to ${query}:`, todo);
   }
-
-  // console.log('Finished!');
 }
 
 function readFile(output) {
@@ -154,9 +115,6 @@ function dateNowFormatted(separator='/') {
 
   return `${day}${separator}${month}${separator}${year}`;
 }
-
-const month = (date) =>
-  (date.getMonth() + 1).toString().padStart(2, '0'); // +1 because in getMonth January starts with zero.
 
 function dateAndHoursNowFormatted(separator=':') {
   const date = new Date();
