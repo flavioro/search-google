@@ -69,14 +69,53 @@ async function delayedLog(query) {
 
     if (Array.isArray(results) && typeof results != "undefined" && results != null 
       && results.length != null && results.length > 0 ) {
-      const indexArch = results.findIndex(item => item.link.includes('archshop'));
-      if (indexArch && indexArch > 0) {
+      
+      // Monitory ArchShop
+      const indexArchShop = results.findIndex(item => item.link.includes('archshop'));
+      if (indexArchShop && indexArchShop > 0) {
         const dateTime = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
-        const itemAdd = {word: query, date: dateTime, position: indexArch+1}
-        const itemArch = {...itemAdd, ...results[indexArch] }
+        const itemAdd = {word: query, date: dateTime, position: indexArchShop+1}
+        const itemArch = {...itemAdd, ...results[indexArchShop] }
         utils('./src/archshop.json', JSON.stringify(itemArch)+',')
       }
+
+      // Monitory 123projetei
+      const index123projetei = results.findIndex(item => item.link.includes('123projetei'));
+      if (index123projetei && index123projetei > 0) {
+        const dateTime = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+        const itemAdd = {word: query, date: dateTime, position: index123projetei+1}
+        const item123Projetei = {...itemAdd, ...results[index123projetei] }
+        utils('./src/123projetei.json', JSON.stringify(item123Projetei)+',')
+      }
+
+      // Monitory plantapronta
+      const indexPlantapronta = results.findIndex(item => item.link.includes('plantapronta'));
+      if (indexPlantapronta && indexPlantapronta > 0) {
+        const dateTime = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+        const itemAdd = {word: query, date: dateTime, position: indexPlantapronta+1}
+        const itemPlantapronta = {...itemAdd, ...results[indexPlantapronta] }
+        utils('./src/plantapronta.json', JSON.stringify(itemPlantapronta)+',')
+      }
   
+      // Monitory soprojetos
+      const indexSoprojetos = results.findIndex(item => item.link.includes('soprojetos'));
+      if (indexSoprojetos && indexSoprojetos > 0) {
+        const dateTime = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+        const itemAdd = {word: query, date: dateTime, position: indexSoprojetos+1}
+        const itemNew = {...itemAdd, ...results[indexSoprojetos] }
+        utils('./src/soprojetos.json', JSON.stringify(itemNew)+',')
+      }
+
+      // Monitory plantasdecasas
+      const indexPlantasdecasas = results.findIndex(item => item.link.includes('plantasdecasas'));
+      if (indexPlantasdecasas && indexPlantasdecasas > 0) {
+        const dateTime = new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString()
+        const itemAdd = {word: query, date: dateTime, position: indexPlantasdecasas+1}
+        const itemNew = {...itemAdd, ...results[indexPlantasdecasas] }
+        utils('./src/plantasdecasas.json', JSON.stringify(itemNew)+',')
+      }
+
+
       let fileCsv = exportToCsv.createCSVData(results, '|')
       fs.writeFileSync(output+'.csv', fileCsv);
   }
