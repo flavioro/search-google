@@ -37,7 +37,7 @@ let contador = 0
 getTodos(searchWords)
 
 async function delay() {
-  return await new Promise(resolve => setTimeout(resolve, 6000));
+  return await new Promise(resolve => setTimeout(resolve, 10000));
 }
 
 function nameFile(nameFile) {
@@ -59,7 +59,7 @@ async function delayedLog(query) {
   const limit = 100
   // const diagnostics = true
   const output = './searchs/'+ nameFile(query)
-  const disableConsole  = true
+  const disableConsole  = false
 
   contador++
 
